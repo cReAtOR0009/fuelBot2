@@ -49,7 +49,7 @@ function keepServerAlive() {
 }
 keepServerAlive();
 
-setInterval(keepServerAlive, 60000);
+// setInterval(keepServerAlive, 60000);
 
 app.get("/", async (req, res) => {
   try {
