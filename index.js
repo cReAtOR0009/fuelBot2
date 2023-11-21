@@ -45,7 +45,7 @@ browserIsStart();
 
 function keepServerAlive() {
   // Your code here
-  console.log("Function called every 5 minutes");
+  console.log("Function called every 1 minutes");
 }
 keepServerAlive();
 
@@ -124,15 +124,17 @@ app.get("/imagepaths", async (req, res) => {
   let getImagePath = await formatters.getImagePath();
   res.send({ stations: getImagePath });
 });
-
-app.get("/addimgurls", async (req, res) => {
+ 
+app.get("/addimgurls", async (req, res) => { 
   let addimgurls = await formatters.addImageUrls();
+  console.log("addimgurls :", addimgurls)
   res.send({ "station with urls": addimgurls });
 });
 app.listen(PORT, () => {
   console.log(`bot running on ${PORT}`);
 });
 
+// npm install && cd ./node_modules/puppeteer && npm install
 // lat_max=90.38669150215206&lon_max=180&lat_min=-90&lon_min=-180&zoom=19
 // let headerContent = tableHeaders.forEach(async (header) => {
 //   let headers = Array.from(element.querySelectorAll("th"));

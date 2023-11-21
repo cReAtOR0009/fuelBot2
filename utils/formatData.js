@@ -3,7 +3,6 @@ const companies = require("../companies");
 const imgurl = require("../imgurl.js")
 const fs = require("fs")
 const path = require('path');
-const { getHeapStatistics } = require("v8");
 const folderPath = './assets/images'
 
  
@@ -40,30 +39,22 @@ module.exports.getImagePath = () => {
 }
 
 module.exports.addImageUrls = async () => {
-  let newList = []
- let formatStations =await stations.gasstations.forEach(async (station) => {
-    let sName = station.stationName
-    imgurl.urls.forEach(url => {
-      if (url.includes(`${sName}_`)) {
-        station.imgUrl = url
-        newList.push(station)
-        // console.log(station)
-        // return station
-      } else {
-        station.imgUrl = ''
-        newList.push(station)
-        // return station
-      }
-    });
-    // console.log("station: ", station)
-    return newList
-  })
-  // console.log("formattedStations", formatStations)
-  // console.log("newlist: ", newList)
-  return newList
-  return formatStations
-}
+  const newList = await Promise.all(stations.gasstations.map(async (station) => {
+      const sName = station.stationName;
+      const matchingUrl = imgurl.urls.find(url => url.includes(`${sName}_`));
 
+      if (matchingUrl) {
+          station.imgUrl = matchingUrl;
+      } else {
+          station.imgUrl = '';
+      }
+
+      return station;
+  }));
+
+  console.log("formatStations: ", newList);
+  return newList;
+};
 
 module.exports.extractCompanies = () => {
   let companyBox = [];
